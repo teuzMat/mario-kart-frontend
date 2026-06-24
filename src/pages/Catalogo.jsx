@@ -3,15 +3,21 @@ import { personagens, carrocerias, pneus, planadores } from '../dados';
 
 function Catalogo() {
   const [ordemPeso, setOrdemPeso] = useState('padrao');
+  // Estado para controlar o que mostrar (Checkbox)
+  const [visibilidade, setVisibilidade] = useState({
+    personagens: true, carrocerias: true, pneus: true, planadores: true
+  });
 
-  // Lógica de ordenação: Cria uma cópia do array e ordena baseado no select
+  const toggleVisibilidade = (cat) => {
+    setVisibilidade(prev => ({ ...prev, [cat]: !prev[cat] }));
+  };
+
   const personagensOrdenados = [...personagens].sort((a, b) => {
     if (ordemPeso === 'leve-pesado') return a.peso - b.peso;
     if (ordemPeso === 'pesado-leve') return b.peso - a.peso;
-    return 0; // 'padrao'
+    return 0;
   });
 
-  // Função para renderizar as cartinhas do grid
   const renderItem = (item) => (
     <div key={item.id} className="card-grid">
       <img src={item.imagem} alt={item.nome} />
@@ -23,47 +29,49 @@ function Catalogo() {
   return (
     <div className="pagina-catalogo">
       <div className="header-catalogo">
-        <h2>Personagens</h2>
-        <div className="filtro">
-          <label>Ordenar por Peso: </label>
-          <select value={ordemPeso} onChange={(e) => setOrdemPeso(e.target.value)}>
-            <option value="padrao">Padrão</option>
-            <option value="leve-pesado">Mais Leves Primeiro</option>
-            <option value="pesado-leve">Mais Pesados Primeiro</option>
-          </select>
+        <h2>Catálogo de Itens</h2>
+        
+        <div className="controles-filtro">
+          <label><input type="checkbox" checked={visibilidade.personagens} onChange={() => toggleVisibilidade('personagens')} />Personagens</label>
+          <label><input type="checkbox" checked={visibilidade.carrocerias} onChange={() => toggleVisibilidade('carrocerias')} />Carrocerias</label>
+          <label><input type="checkbox" checked={visibilidade.pneus} onChange={() => toggleVisibilidade('pneus')} />Pneus</label>
+          <label><input type="checkbox" checked={visibilidade.planadores} onChange={() => toggleVisibilidade('planadores')} />Planadores</label>
         </div>
-      </div>
-      <div className="grid-4-colunas">
-        {personagensOrdenados.map(renderItem)}
-      </div>
 
-      <hr className="divisor" />
-
-      <h2>Carrocerias</h2>
-      <h3>Karts</h3>
-      <div className="grid-4-colunas">
-        {/* Assumindo que você tem 'tipo: "Kart"' no dados.js */}
-        {carrocerias.filter(c => c.tipo !== 'Moto').map(renderItem)}
+        <select value={ordemPeso} onChange={(e) => setOrdemPeso(e.target.value)}>
+          <option value="padrao">Peso Padrão</option>
+          <option value="leve-pesado">Leve → Pesado</option>
+          <option value="pesado-leve">Pesado → Leve</option>
+        </select>
       </div>
 
-      <h3>Motos</h3>
-      <div className="grid-4-colunas">
-        {carrocerias.filter(c => c.tipo === 'Moto').map(renderItem)}
-      </div>
+      {visibilidade.personagens && (
+        <>
+          <h3>Personagens</h3>
+          <div className="grid-4-colunas">{personagensOrdenados.map(renderItem)}</div>
+        </>
+      )}
 
-      <hr className="divisor" />
+      {visibilidade.carrocerias && (
+        <>
+          <h3>Carrocerias</h3>
+          <div className="grid-4-colunas">{carrocerias.map(renderItem)}</div>
+        </>
+      )}
 
-      <h2>Pneus</h2>
-      <div className="grid-4-colunas">
-        {pneus.map(renderItem)}
-      </div>
+      {visibilidade.pneus && (
+        <>
+          <h3>Pneus</h3>
+          <div className="grid-4-colunas">{pneus.map(renderItem)}</div>
+        </>
+      )}
 
-      <hr className="divisor" />
-
-      <h2>Planadores</h2>
-      <div className="grid-4-colunas">
-        {planadores.map(renderItem)}
-      </div>
+      {visibilidade.planadores && (
+        <>
+          <h3>Planadores</h3>
+          <div className="grid-4-colunas">{planadores.map(renderItem)}</div>
+        </>
+      )}
     </div>
   );
 }
