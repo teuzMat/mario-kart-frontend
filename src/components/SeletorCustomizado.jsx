@@ -1,23 +1,17 @@
-import { useState } from 'react';
-
-function SeletorCustomizado({ label, opcoes, itemSelecionado, setItemSelecionado }) {
-  const [aberto, setAberto] = useState(false);
-
+function SeletorCustomizado({ label, opcoes, itemSelecionado, setItemSelecionado, isAberto, onToggle }) {
   return (
     <div className="seletor-customizado">
       <label>{label}</label>
       
-      {/* Botão principal que mostra o item selecionado atual */}
-      <div className="seletor-header" onClick={() => setAberto(!aberto)}>
+      <div className="seletor-header" onClick={onToggle}>
         <div className="seletor-item-info">
           <img src={itemSelecionado.imagem} alt={itemSelecionado.nome} className="seletor-img" />
           <span>{itemSelecionado.nome}</span>
         </div>
-        <span className="seta">{aberto ? '▲' : '▼'}</span>
+        <span className="seta">{isAberto ? '▲' : '▼'}</span>
       </div>
 
-      {/* Lista suspensa que só aparece se 'aberto' for true */}
-      {aberto && (
+      {isAberto && (
         <ul className="seletor-lista">
           {opcoes.map((opcao) => (
             <li 
@@ -25,7 +19,7 @@ function SeletorCustomizado({ label, opcoes, itemSelecionado, setItemSelecionado
               className={itemSelecionado.id === opcao.id ? 'selecionado' : ''}
               onClick={() => {
                 setItemSelecionado(opcao);
-                setAberto(false); // Fecha o menu ao clicar
+                onToggle();
               }}
             >
               <img src={opcao.imagem} alt={opcao.nome} className="seletor-img" />

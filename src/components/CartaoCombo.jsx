@@ -1,6 +1,15 @@
 function CartaoCombo({ personagem, carroceria, pneu, planador, statusTotal }) {
-  // Função para garantir que o número tenha no máximo 2 casas decimais (ex: 4.75)
   const formatarNumero = (num) => num.toFixed(2).replace('.00', '');
+
+  // Função para não repetir o mesmo código HTML nas 7 barras
+  const renderBarra = (nome, valor) => (
+    <div className="atributo" key={nome}>
+      <span>{nome}: {formatarNumero(valor)}</span>
+      <div className="barra-fundo">
+        <div className="barra-progresso" style={{ width: `${(valor / 6) * 100}%` }}></div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="card-combo">
@@ -16,27 +25,13 @@ function CartaoCombo({ personagem, carroceria, pneu, planador, statusTotal }) {
 
       <div className="card-body">
         <h3>Status Finais do Combo</h3>
-        
-        {/* A barra máxima no jogo é 6. Dividimos por 6 para achar a porcentagem de preenchimento CSS */}
-        <div className="atributo">
-          <span>Velocidade: {formatarNumero(statusTotal.velocidade)}</span>
-          <div className="barra-fundo"><div className="barra-progresso" style={{ width: `${(statusTotal.velocidade / 6) * 100}%` }}></div></div>
-        </div>
-
-        <div className="atributo">
-          <span>Aceleração: {formatarNumero(statusTotal.aceleracao)}</span>
-          <div className="barra-fundo"><div className="barra-progresso" style={{ width: `${(statusTotal.aceleracao / 6) * 100}%` }}></div></div>
-        </div>
-
-        <div className="atributo">
-          <span>Peso: {formatarNumero(statusTotal.peso)}</span>
-          <div className="barra-fundo"><div className="barra-progresso" style={{ width: `${(statusTotal.peso / 6) * 100}%` }}></div></div>
-        </div>
-
-        <div className="atributo">
-          <span>Dirigibilidade: {formatarNumero(statusTotal.dirigibilidade)}</span>
-          <div className="barra-fundo"><div className="barra-progresso" style={{ width: `${(statusTotal.dirigibilidade / 6) * 100}%` }}></div></div>
-        </div>
+        {renderBarra("Velocidade", statusTotal.velocidade)}
+        {renderBarra("Aceleração", statusTotal.aceleracao)}
+        {renderBarra("Peso", statusTotal.peso)}
+        {renderBarra("Manuseio", statusTotal.manuseio)}
+        {renderBarra("Tração", statusTotal.tracao)}
+        {renderBarra("Mini-Turbo", statusTotal.miniTurbo)}
+        {renderBarra("Invencibilidade", statusTotal.invencibilidade)}
       </div>
     </div>
   );

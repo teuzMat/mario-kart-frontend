@@ -1,72 +1,75 @@
 import { useState } from 'react';
-
-// Note que aqui usamos '../' porque saímos da pasta 'pages' para acessar a raiz 'src'
 import { personagens, carrocerias, pneus, planadores } from '../dados';
 import CartaoCombo from '../components/CartaoCombo';
 import SeletorCustomizado from '../components/SeletorCustomizado';
 
 function ComboBuilder() {
-  // 1. Estados para guardar qual item o usuário escolheu (começa com o primeiro de cada lista)
   const [personagemSel, setPersonagemSel] = useState(personagens[0]);
   const [carroceriaSel, setCarroceriaSel] = useState(carrocerias[0]);
   const [pneuSel, setPneuSel] = useState(pneus[0]);
   const [planadorSel, setPlanadorSel] = useState(planadores[0]);
 
-  // 2. A FÓRMULA MATEMÁTICA DO JOGO: (Soma + 3) / 4
+  // Estado que controla qual dropdown está aberto no momento
+  const [menuAberto, setMenuAberto] = useState(null);
+
+  const toggleMenu = (menuNome) => {
+    // Se clicar no mesmo que já está aberto, ele fecha (null). Se clicar em outro, ele abre o outro.
+    setMenuAberto(menuAberto === menuNome ? null : menuNome);
+  };
+
   const calcularAtributo = (p, c, pn, pl) => {
     const soma = p + c + pn + pl;
     return (soma + 3) / 4;
   };
 
-  // 3. Calculando os status totais aplicando a fórmula em cada atributo
+  // Matemática atualizada para ler os atributos de "terra" e os novos status da tabela
   const statusTotal = {
-    velocidade: calcularAtributo(
-      personagemSel.velocidade, carroceriaSel.velocidadeG, pneuSel.velocidadeG, planadorSel.velocidadeG
-    ),
-    aceleracao: calcularAtributo(
-      personagemSel.aceleracao, carroceriaSel.aceleracao, pneuSel.aceleracao, planadorSel.aceleracao
-    ),
-    peso: calcularAtributo(
-      personagemSel.peso, carroceriaSel.peso, pneuSel.peso, planadorSel.peso
-    ),
-    dirigibilidade: calcularAtributo(
-      personagemSel.dirigibilidade, carroceriaSel.dirigibilidadeG, pneuSel.dirigibilidadeG, planadorSel.dirigibilidadeG
-    ),
+    velocidade: calcularAtributo(personagemSel.velocidade.terra, carroceriaSel.velocidade.terra, pneuSel.velocidade.terra, planadorSel.velocidade.terra),
+    aceleracao: calcularAtributo(personagemSel.aceleracao, carroceriaSel.aceleracao, pneuSel.aceleracao, planadorSel.aceleracao),
+    peso: calcularAtributo(personagemSel.peso, carroceriaSel.peso, pneuSel.peso, planadorSel.peso),
+    manuseio: calcularAtributo(personagemSel.manuseio.terra, carroceriaSel.manuseio.terra, pneuSel.manuseio.terra, planadorSel.manuseio.terra),
+    tracao: calcularAtributo(personagemSel.tracao, carroceriaSel.tracao, pneuSel.tracao, planadorSel.tracao),
+    miniTurbo: calcularAtributo(personagemSel.miniTurbo, carroceriaSel.miniTurbo, pneuSel.miniTurbo, planadorSel.miniTurbo),
+    invencibilidade: calcularAtributo(personagemSel.invencibilidade, carroceriaSel.invencibilidade, pneuSel.invencibilidade, planadorSel.invencibilidade),
   };
 
-  // 4. Desenhando a tela na página
   return (
     <div className="conteudo-principal">
-      
-      {/* Lado Esquerdo: Os Filtros Suspensos */}
       <section className="painel-selecao">
         <SeletorCustomizado 
           label="Personagem" 
           opcoes={personagens} 
           itemSelecionado={personagemSel} 
           setItemSelecionado={setPersonagemSel} 
+          isAberto={menuAberto === 'personagem'}
+          onToggle={() => toggleMenu('personagem')}
         />
         <SeletorCustomizado 
           label="Carroceria" 
           opcoes={carrocerias} 
           itemSelecionado={carroceriaSel} 
           setItemSelecionado={setCarroceriaSel} 
+          isAberto={menuAberto === 'carroceria'}
+          onToggle={() => toggleMenu('carroceria')}
         />
         <SeletorCustomizado 
           label="Pneus" 
           opcoes={pneus} 
           itemSelecionado={pneuSel} 
           setItemSelecionado={setPneuSel} 
+          isAberto={menuAberto === 'pneu'}
+          onToggle={() => toggleMenu('pneu')}
         />
         <SeletorCustomizado 
           label="Planador" 
           opcoes={planadores} 
           itemSelecionado={planadorSel} 
           setItemSelecionado={setPlanadorSel} 
+          isAberto={menuAberto === 'planador'}
+          onToggle={() => toggleMenu('planador')}
         />
       </section>
 
-      {/* Lado Direito: O Cartão de Resultados */}
       <section className="painel-resultado">
         <CartaoCombo 
           personagem={personagemSel} 
@@ -76,7 +79,6 @@ function ComboBuilder() {
           statusTotal={statusTotal} 
         />
       </section>
-      
     </div>
   );
 }

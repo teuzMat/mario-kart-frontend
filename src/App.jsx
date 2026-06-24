@@ -10,26 +10,31 @@ function App() {
 
   return (
     <Router>
-      {/* A classe do tema envolve TUDO, garantindo que o fundo e o texto mudem */}
       <div className={`app-container ${temaEscuro ? 'tema-escuro' : 'tema-claro'}`}>
-        
-        <nav className="navbar">
-          <div className="nav-links">
-            <NavLink to="/" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>Sobre o Jogo</NavLink>
-            <NavLink to="/catalogo" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>Catálogo</NavLink>
-            <NavLink to="/builder" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>Combo Builder</NavLink>
+
+        <nav className="navbar-full">
+          <div className="nav-container-limitado">
+            <div className="nav-links">
+              <NavLink to="/" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>Sobre</NavLink>
+              <NavLink to="/catalogo" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>Catálogo</NavLink>
+              <NavLink to="/builder" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>Builder</NavLink>
+            </div>
+
+            <button onClick={() => setTemaEscuro(!temaEscuro)} className="btn-tema-img" title="Alternar Tema">
+              <img
+                src={temaEscuro ? "/img/theme/modo_claro.png" : "/img/theme/modo_escuro.png"}
+                alt="Alternar Tema"
+              />
+            </button>
+
           </div>
-          
-          <button onClick={() => setTemaEscuro(!temaEscuro)} className="btn-tema">
-            {temaEscuro ? '☀️ Modo Claro' : '🌙 Modo Escuro'}
-          </button>
         </nav>
 
-        <main className="conteudo-rotas">
+        <main className="container-75">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/catalogo" element={<Catalogo />} />
-            <Route path="/builder" element={<ComboBuilder />} />
+            <Route path="/" element={<div className="page-wrapper"><Home /></div>} />
+            <Route path="/catalogo" element={<div className="page-wrapper"><Catalogo /></div>} />
+            <Route path="/builder" element={<div className="page-wrapper"><ComboBuilder /></div>} />
           </Routes>
         </main>
       </div>
