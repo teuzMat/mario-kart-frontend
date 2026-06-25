@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import Catalogo from './pages/Catalogo';
 import ComboBuilder from './pages/ComboBuilder';
@@ -12,22 +12,28 @@ function App() {
     <Router>
       <div className={`app-container ${temaEscuro ? 'tema-escuro' : 'tema-claro'}`}>
 
-        <nav className="navbar-full">
-          <div className="nav-container-limitado">
-            <div className="nav-links">
-              <NavLink to="/" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>Sobre</NavLink>
-              <NavLink to="/catalogo" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>Catálogo</NavLink>
-              <NavLink to="/builder" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>Builder</NavLink>
-            </div>
+        <nav className="navbar-principal">
+          <div className="nav-centro-agrupado">
+            <NavLink to="/catalogo" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>
+              Catálogo
+            </NavLink>
 
-            <button onClick={() => setTemaEscuro(!temaEscuro)} className="btn-tema-img" title="Alternar Tema">
-              <img
-                src={temaEscuro ? "/img/theme/modo_claro.png" : "/img/theme/modo_escuro.png"}
-                alt="Alternar Tema"
-              />
-            </button>
+            <Link to="/">
+              <img src="/img/logo.png" alt="Shy Guy Falls Tech" className="logo-menu" />
+            </Link>
 
+            <NavLink to="/builder" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>
+              Combo Builder
+            </NavLink>
           </div>
+
+          <button onClick={() => setTemaEscuro(!temaEscuro)} className="btn-tema-img btn-tema-absoluto" title="Alternar Tema">
+            <img
+              src={temaEscuro ? "/img/theme/modo_claro.png" : "/img/theme/modo_escuro.png"}
+              alt="Alternar Tema"
+            />
+          </button>
+
         </nav>
 
         <main className="container-75">

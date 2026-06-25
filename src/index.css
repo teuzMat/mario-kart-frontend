@@ -15,7 +15,6 @@
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  /* CORREÇÃO DO ESPAÇO BRANCO: Força o container a abraçar todo o conteúdo */
   display: flex;
   flex-direction: column;
 }
@@ -41,15 +40,13 @@
 /* ==========================================================================
    3. LAYOUT GERAL (CORREÇÃO DE LARGURA)
    ========================================================================== */
-/* Apenas o container pai ou os wrappers principais ditam a largura de 75% */
-.container-75, .nav-container-limitado {
+.container-75 {
   width: 100%;
   max-width: 75%;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Redundâncias removidas: As páginas internas ocupam 100% dos 75% do pai */
 .conteudo-principal, .pagina-home, .pagina-catalogo, .pagina-builder {
   width: 100%;
   max-width: 100%;
@@ -72,25 +69,44 @@
 }
 
 /* ==========================================================================
-   4. NAVEGAÇÃO E BOTÕES
+   4. NAVEGAÇÃO E BOTÕES (MENU NOVO 75%)
    ========================================================================== */
-.navbar-full {
+.navbar-principal {
   width: 100%;
+  max-width: 75%; /* Respeita o tamanho da tela */
+  margin: 30px auto; /* Dá o espaço superior e centraliza horizontalmente */
   background-color: rgba(0, 0, 0, 0.2);
   border-bottom: 2px solid #e74c3c;
-  margin-bottom: 30px;
+  border-radius: 12px; /* Deixa o menu flutuante mais elegante */
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center; /* Mantém o grupo principal no centro exato */
+  align-items: center;
+  position: relative; /* Necessário para ancorar o botão de tema à direita */
   transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
 }
 
-.nav-container-limitado {
+.nav-centro-agrupado {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 0;
+  gap: 50px; /* Trava o espaço em exatamente 50px entre os elementos */
 }
 
-.nav-links { display: flex; gap: 20px; }
-.nav-links a {
+/* Estilização da Logo gerada por IA (Aumentada 2.5x) */
+.logo-menu {
+  height: 160px; /* Aumentado de 65px para 160px */
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
+.logo-menu:hover {
+  transform: scale(1.05); /* Efeito mais sutil por a logo ser grande agora */
+}
+
+/* Estilo dos Links */
+.nav-centro-agrupado a {
   text-decoration: none;
   font-weight: bold;
   font-size: 1.1rem;
@@ -99,9 +115,15 @@
   transition: background-color 0.3s;
 }
 
-.tema-claro .nav-links a { color: #333; }
-.tema-escuro .nav-links a { color: #fff; }
+.tema-claro .nav-centro-agrupado a { color: #333; }
+.tema-escuro .nav-centro-agrupado a { color: #fff; }
 .nav-ativo { background-color: #e74c3c; color: white !important; }
+
+/* Botões de Tema Fixado na Direita */
+.btn-tema-absoluto {
+  position: absolute;
+  right: 20px; /* Prende o botão a 20px da borda direita do menu */
+}
 
 .btn-tema-img {
   background: transparent;
@@ -240,7 +262,6 @@
 
 .seletor-header:hover { border-color: #3498db; transform: translateX(5px); }
 
-/* CORREÇÃO DA BORDA DO DROPDOWN NO MODO CLARO */
 .tema-claro .seletor-header { border-color: #cccccc; }
 .tema-claro .seletor-header:hover { border-color: #3498db; }
 
