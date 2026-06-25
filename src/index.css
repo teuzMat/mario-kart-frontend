@@ -1,3 +1,6 @@
+/* ==========================================================================
+   1. RESET E BASE
+   ========================================================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,40 +11,69 @@
 .app-container {
   min-height: 100vh;
   transition: color 0.5s;
-  padding: 0; /* Removido padding para a navbar encostar nas laterais */
+  padding: 0;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  /* CORREÇÃO DO ESPAÇO BRANCO: Força o container a abraçar todo o conteúdo */
+  display: flex;
+  flex-direction: column;
 }
 
-/* Modo Escuro */
-.tema-escuro {
-  background-image: url('/img/background/bg_blacky.png'); 
-}
+.tema-escuro { background-image: url('/img/background/bg_blacky.png'); }
+.tema-claro { background-image: url('/img/background/bg_white.png'); }
 
-/* Modo Claro */
-.tema-claro {
-  background-image: url('/img/background/bg_white.png'); 
-}
-
-/* --- CORES GLOBAIS DE TEXTO --- */
-/* Adicionado .equipe-membro span na lista para corrigir a legibilidade */
-.tema-escuro h1, .tema-escuro h2, .tema-escuro h3, .tema-escuro h4, .tema-escuro p, .tema-escuro label, .tema-escuro .atributo span, .tema-escuro .equipe-membro span {
+/* ==========================================================================
+   2. CORES GLOBAIS DE TEXTO
+   ========================================================================== */
+.tema-escuro h1, .tema-escuro h2, .tema-escuro h3, .tema-escuro h4, 
+.tema-escuro p, .tema-escuro label, .tema-escuro .atributo span, 
+.tema-escuro .equipe-membro span {
   color: #ffffff;
 }
 
-.tema-claro h1, .tema-claro h2, .tema-claro h3, .tema-claro h4, .tema-claro p, .tema-claro label, .tema-claro .atributo span, .tema-claro .equipe-membro span {
+.tema-claro h1, .tema-claro h2, .tema-claro h3, .tema-claro h4, 
+.tema-claro p, .tema-claro label, .tema-claro .atributo span, 
+.tema-claro .equipe-membro span {
   color: #333333;
 }
 
-/* --- TAMANHO DA TELA (75%) ---*/
-.container-75, .conteudo-principal, .pagina-home, .pagina-catalogo {
+/* ==========================================================================
+   3. LAYOUT GERAL (CORREÇÃO DE LARGURA)
+   ========================================================================== */
+/* Apenas o container pai ou os wrappers principais ditam a largura de 75% */
+.container-75, .nav-container-limitado {
+  width: 100%;
   max-width: 75%;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* --- NAVEGAÇÃO E ROTAS (100% de largura) --- */
+/* Redundâncias removidas: As páginas internas ocupam 100% dos 75% do pai */
+.conteudo-principal, .pagina-home, .pagina-catalogo, .pagina-builder {
+  width: 100%;
+  max-width: 100%;
+}
+
+.conteudo-principal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.pagina-home {
+  padding: 20px;
+}
+
+.divisor {
+  margin: 40px 0;
+  border: 0;
+  border-top: 1px solid rgba(150, 150, 150, 0.3);
+}
+
+/* ==========================================================================
+   4. NAVEGAÇÃO E BOTÕES
+   ========================================================================== */
 .navbar-full {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.2);
@@ -51,19 +83,13 @@
 }
 
 .nav-container-limitado {
-  max-width: 75%;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 0;
 }
 
-.nav-links {
-  display: flex;
-  gap: 20px;
-}
-
+.nav-links { display: flex; gap: 20px; }
 .nav-links a {
   text-decoration: none;
   font-weight: bold;
@@ -73,17 +99,46 @@
   transition: background-color 0.3s;
 }
 
-/* Herdar a cor do texto do tema pai */
 .tema-claro .nav-links a { color: #333; }
 .tema-escuro .nav-links a { color: #fff; }
+.nav-ativo { background-color: #e74c3c; color: white !important; }
 
-.nav-ativo {
-  background-color: #e74c3c;
-  color: white !important; /* Sempre branco quando ativo */
+.btn-tema-img {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+.btn-tema-img:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.1); 
+}
 
-/* --- GRID DE 4 COLUNAS E CATÁLOGO --- */
+.btn-tema-img img { width: 40px; height: 40px; object-fit: contain; }
+
+.btn-grande {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff !important; 
+  background-color: #e74c3c; 
+  border-radius: 10px; 
+  text-decoration: none;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-grande:hover { transform: scale(1.20); background-color: #c0392b; }
+
+/* ==========================================================================
+   5. GRID E COMPONENTES DE CARTÕES
+   ========================================================================== */
 .grid-4-colunas {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -92,7 +147,6 @@
 }
 
 .card-grid {
-  /* Fundo preto semi-transparente e efeito de vidro */
   background: rgba(0, 0, 0, 0.6); 
   backdrop-filter: blur(6px); 
   -webkit-backdrop-filter: blur(6px);
@@ -104,7 +158,6 @@
 }
 
 .tema-claro .card-grid {
-  /* Fundo branco semi-transparente no modo claro */
   background: rgba(255, 255, 255, 0.85); 
   border: 1px solid #ccc;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -117,91 +170,11 @@
   margin-bottom: 10px;
 }
 
-.card-grid:hover {
-  transform: translateY(-5px);
-}
+.card-grid:hover { transform: translateY(-5px); }
 
-.info-extra {
-  display: block;
-  font-size: 0.85rem;
-  color: #5dade2; /* Azul vibrante no escuro */
-  font-weight: bold;
-  margin-top: 5px;
-}
+.info-extra { display: block; font-size: 0.85rem; color: #5dade2; font-weight: bold; margin-top: 5px; }
+.tema-claro .info-extra { color: #2980b9; }
 
-.tema-claro .info-extra {
-  color: #2980b9; /* Azul escuro no claro */
-}
-
-.divisor {
-  margin: 40px 0;
-  border: 0;
-  border-top: 1px solid rgba(150, 150, 150, 0.3);
-}
-
-
-/* --- CABEÇALHOS INLINE DO CATÁLOGO --- */
-.header-secao-inline {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap; /* Garante que não quebre em telas menores */
-  margin-bottom: 20px;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 10px 20px;
-  border-radius: 8px;
-}
-
-.controles-inline {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.separador {
-  color: #ccc;
-  margin: 0 5px;
-}
-
-/* --- ESTILO DO DROPDOWN E CHECKBOX LARANJA --- */
-.select-tema {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* Força o menu seguir o dark mode */
-.tema-escuro .select-tema {
-  background-color: #333;
-  color: #fff;
-  border-color: #555;
-}
-
-.tema-claro .select-tema {
-  background-color: #fff;
-  color: #333;
-}
-
-/* Estilo moderno nativo para checkboxes com cor de destaque laranja */
-.checkbox-laranja {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 0.95rem;
-}
-
-.checkbox-laranja input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  accent-color: #f39c12; /* O Laranja do Mario Kart */
-}
-
-/* --- MINI TABELA DE STATUS NO CARD --- */
 .status-detalhados {
   margin-top: 15px;
   padding-top: 12px;
@@ -213,149 +186,69 @@
   gap: 4px;
 }
 
-.linha-status {
-  display: flex;
-  justify-content: space-between;
-}
-
-.linha-status span {
-  color: #888;
-}
-
-/* Ajustes de cor dos status pro tema escuro/claro */
+.linha-status { display: flex; justify-content: space-between; }
+.linha-status span { color: #888; }
 .tema-escuro .linha-status span { color: #aaa; }
 .tema-claro .linha-status span { color: #555; }
+.linha-status b { color: #e74c3c; }
 
-.linha-status b {
-  color: #e74c3c; /* Destaque em vermelho suave */
-}
-
-
-/* --- LAYOUT DO COMBO BUILDER --- */
-.conteudo-principal {
+/* ==========================================================================
+   6. CONTROLES E FORMS (CATÁLOGO E BUILDER)
+   ========================================================================== */
+.header-secao-inline {
   display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-  max-width: 900px;
-  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; 
+  margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  border-radius: 8px;
 }
 
-.painel-selecao {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  min-width: 300px;
-}
+.controles-inline { display: flex; align-items: center; gap: 15px; }
+.separador { color: #ccc; margin: 0 5px; }
 
-.painel-resultado {
-  flex: 1;
-  min-width: 300px;
-}
-
-
-/* --- ESTILOS DO CARTÃO COMBO --- */
-.card-combo {
-  background: rgba(0, 0, 0, 0.6); 
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
-}
-
-.tema-claro .card-combo {
-  background: rgba(255, 255, 255, 0.85);
+.select-tema {
+  padding: 6px 12px;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.card-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.grupo-imagens-combo {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: -10px; /* Sobreposição das imagens */
-  margin-bottom: 20px;
-  background: rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  border-radius: 12px;
-}
-
-.grupo-imagens-combo img {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-.grupo-imagens-combo img:hover {
-  transform: scale(1.15) translateY(-5px);
-}
-
-
-/* --- BARRAS DE PROGRESSO --- */
-.atributo {
-  margin-bottom: 15px;
-}
-
-.atributo span {
-  font-size: 0.9rem;
   font-weight: bold;
+  cursor: pointer;
 }
 
-.barra-fundo {
-  width: 100%;
-  height: 12px;
-  background-color: #ddd;
-  border-radius: 6px;
-  margin-top: 5px;
-  overflow: hidden;
-}
+.tema-escuro .select-tema { background-color: #333; color: #fff; border-color: #555; }
+.tema-claro .select-tema { background-color: #fff; color: #333; }
 
-.barra-progresso {
-  height: 100%;
-  background-color: #2ecc71;
-  border-radius: 6px;
-  transition: width 0.4s ease-in-out;
-}
+.checkbox-laranja { display: flex; align-items: center; gap: 5px; cursor: pointer; font-weight: bold; font-size: 0.95rem; }
+.checkbox-laranja input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: #f39c12; }
 
-
-/* --- ESTILOS DO DROPDOWN CUSTOMIZADO --- */
-.seletor-customizado {
-  position: relative;
-  width: 100%;
-}
-
+/* Dropdown Customizado (Builder) */
+.seletor-customizado { position: relative; width: 100%; }
 .seletor-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 16px;
+  padding: 12px 20px;
   background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 2px solid transparent;
+  border-radius: 12px;
   cursor: pointer;
   color: #333;
+  transition: all 0.3s ease;
 }
 
-.seletor-item-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.seletor-header:hover { border-color: #3498db; transform: translateX(5px); }
 
-.seletor-img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-}
+/* CORREÇÃO DA BORDA DO DROPDOWN NO MODO CLARO */
+.tema-claro .seletor-header { border-color: #cccccc; }
+.tema-claro .seletor-header:hover { border-color: #3498db; }
+
+.tema-escuro .seletor-header { background-color: rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.1); color: #ffffff; }
+.tema-escuro .seletor-header:hover { border-color: #e74c3c; background-color: rgba(0, 0, 0, 0.8); }
+
+.seletor-item-info { display: flex; align-items: center; gap: 12px; }
+.seletor-img { width: 45px; height: 45px; object-fit: contain; }
 
 .seletor-lista {
   position: absolute;
@@ -374,89 +267,19 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-.seletor-lista li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-  color: #333;
-}
+.seletor-lista li { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; border-bottom: 1px solid #eee; color: #333; }
+.seletor-lista li:hover { background-color: #f0f8ff; }
+.seletor-lista li.selecionado { background-color: #e6f2ff; font-weight: bold; }
 
-.seletor-lista li:hover {
-  background-color: #f0f8ff;
-}
+.tema-escuro .seletor-lista { background-color: #1a1a1a; border: 1px solid rgba(255, 255, 255, 0.2); }
+.tema-escuro .seletor-lista li { color: #ffffff; border-bottom: 1px solid #333; }
+.tema-escuro .seletor-lista li:hover { background-color: #333; }
+.tema-escuro .seletor-lista li.selecionado { background-color: #e74c3c; color: #ffffff; }
 
-.seletor-lista li.selecionado {
-  background-color: #e6f2ff;
-  font-weight: bold;
-}
-
-/* --- DROPDOWN NO MODO ESCURO --- */
-.tema-escuro .seletor-header {
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-}
-
-.tema-escuro .seletor-lista {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.tema-escuro .seletor-lista li {
-  color: #ffffff;
-  border-bottom: 1px solid #333;
-}
-
-.tema-escuro .seletor-lista li:hover {
-  background-color: #333;
-}
-
-.tema-escuro .seletor-lista li.selecionado {
-  background-color: #e74c3c;
-  color: #ffffff;
-}
-
-
-/* --- ESTILIZAÇÃO DO NOVO BOTÃO DE IMAGEM --- */
-.btn-tema-img {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.btn-tema-img:hover {
-  transform: scale(1.1);
-  background-color: rgba(255, 255, 255, 0.1); 
-}
-
-.btn-tema-img img {
-  width: 40px; 
-  height: 40px;
-  object-fit: contain;
-}
-
-
-/* --- HOME / SOBRE O JOGO --- */
-.pagina-home {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.pagina-home h1 {
-  text-align: center;
-  margin-bottom: 40px;
-}
+/* ==========================================================================
+   7. SEÇÕES ESPECÍFICAS (HOME E EQUIPE)
+   ========================================================================== */
+.pagina-home h1 { text-align: center; margin-bottom: 40px; }
 
 .card-info {
   background: rgba(0, 0, 0, 0.6); 
@@ -468,31 +291,12 @@
   transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
 }
 
-.tema-claro .card-info {
-  background: rgba(255, 255, 255, 0.85); 
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+.tema-claro .card-info { background: rgba(255, 255, 255, 0.85); border: 1px solid #ccc; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.card-info h2 { margin-bottom: 15px; }
+.card-info p { line-height: 1.6; margin-bottom: 10px; }
 
-.card-info h2 {
-  margin-bottom: 15px;
-}
-
-.card-info p {
-  line-height: 1.6;
-  margin-bottom: 10px;
-}
-
-.lista-mecanicas {
-  padding-left: 20px;
-  margin-top: 15px;
-}
-
-.lista-mecanicas li {
-  margin-bottom: 15px;
-  line-height: 1.6;
-}
-
+.lista-mecanicas { padding-left: 20px; margin-top: 15px; }
+.lista-mecanicas li { margin-bottom: 15px; line-height: 1.6; }
 .tema-escuro .lista-mecanicas li { color: #ddd; }
 .tema-claro .lista-mecanicas li { color: #555; }
 
@@ -512,99 +316,101 @@
   transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
 }
 
-.tema-claro .atributo-box {
-  background: rgba(0, 0, 0, 0.05);
-}
+.tema-claro .atributo-box { background: rgba(0, 0, 0, 0.05); }
+.atributo-box h4 { margin-bottom: 5px; color: #e74c3c !important; }
+.atributo-box p { font-size: 0.9rem; line-height: 1.4; }
 
-.atributo-box h4 {
-  margin-bottom: 5px;
-  color: #e74c3c !important; 
-}
+.area-chamada { text-align: center; margin-top: 40px; padding-top: 25px; border-top: 1px solid rgba(150, 150, 150, 0.3); }
+.area-chamada p { margin-bottom: 15px; font-weight: bold; }
 
-.atributo-box p {
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.area-chamada {
-  text-align: center;
-  margin-top: 40px;
-  padding-top: 25px;
-  border-top: 1px solid rgba(150, 150, 150, 0.3);
-}
-
-.area-chamada p {
-  margin-bottom: 15px;
-  font-weight: bold;
-}
-
-.btn-grande {
-  display: inline-block;
-  padding: 15px 30px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #ffffff !important; /* Força o texto a ficar branco */
-  background-color: #e74c3c; /* Vermelho Mario */
-  border-radius: 10px; /* Deixa as bordas bem arredondadas */
-  text-decoration: none;
-  transition: transform 0.2s, background-color 0.2s;
-}
-
-.btn-grande:hover {
-  transform: scale(1.20);
-  background-color: #c0392b; /* Fica um vermelho mais escuro ao passar o mouse */
-}
-
-
-/* --- ESTILIZAÇÃO DA SEÇÃO DA EQUIPE --- */
-.equipe-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Isso é o que centraliza a última linha (o 5º membro)! */
-  gap: 20px;
-  margin-top: 20px;
-}
-
+.equipe-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px; }
 .equipe-membro {
   background: rgba(0, 0, 0, 0.2);
   padding: 15px;
   border-radius: 8px;
   border-left: 4px solid #3498db;
   display: flex;
-  align-items: center; /* Centraliza a imagem e os textos verticalmente */
-  gap: 15px; /* Espaçamento entre o avatar e os textos */
-  width: calc(50% - 20px); /* Tenta dividir em 2 colunas */
-  min-width: 280px; /* Não deixa quebrar em telas muito pequenas */
-  max-width: 360px; /* Trava o tamanho para o 5º não virar um card gigante */
+  align-items: center; 
+  gap: 15px; 
+  width: calc(50% - 20px); 
+  min-width: 280px; 
+  max-width: 360px; 
 }
 
-.tema-claro .equipe-membro {
-  background: rgba(0, 0, 0, 0.05);
+.tema-claro .equipe-membro { background: rgba(0, 0, 0, 0.05); }
+.avatar-equipe { width: 65px; height: 65px; object-fit: contain; transition: transform 0.3s ease; }
+.equipe-membro:hover .avatar-equipe { transform: scale(1.15) rotate(5deg); }
+.dados-membro { display: flex; flex-direction: column; gap: 4px; }
+.dados-membro strong { font-size: 1.05rem; color: #3498db; line-height: 1.2; }
+.dados-membro span { font-size: 0.85rem; }
+
+/* ==========================================================================
+   8. OFICINA (COMBO BUILDER DETALHES)
+   ========================================================================== */
+.header-builder {
+  text-align: center;
+  margin-bottom: 40px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.avatar-equipe {
-  width: 65px;
-  height: 65px;
-  object-fit: contain;
-  transition: transform 0.3s ease;
+.tema-claro .header-builder { background: rgba(255, 255, 255, 0.85); border: 1px solid #ccc; }
+.header-builder p { margin-top: 10px; font-size: 1.05rem; }
+
+.painel-selecao { flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 300px; }
+.painel-resultado { flex: 1; min-width: 300px; }
+
+.card-combo {
+  background: rgba(0, 0, 0, 0.6); 
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
 }
 
-.equipe-membro:hover .avatar-equipe {
-  transform: scale(1.15) rotate(5deg); /* Dá uma animada no avatar quando passar o mouse */
+.tema-claro .card-combo { background: rgba(255, 255, 255, 0.85); border: 1px solid #ccc; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.card-header { text-align: center; margin-bottom: 20px; }
+
+.showcase-container { position: relative; margin-bottom: 25px; padding-top: 10px; }
+.base-showcase {
+  width: 70%; height: 20px;
+  background: radial-gradient(ellipse at center, rgba(52, 152, 219, 0.6) 0%, transparent 70%);
+  margin: -25px auto 0 auto;
+  border-radius: 50%;
 }
 
-.dados-membro {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+.tema-claro .base-showcase { background: radial-gradient(ellipse at center, rgba(52, 152, 219, 0.3) 0%, transparent 70%); }
+.grupo-imagens-combo { display: flex; justify-content: center; align-items: flex-end; gap: -15px; margin-bottom: 0; background: transparent; padding: 0; }
+.grupo-imagens-combo img { width: 80px; height: 80px; object-fit: contain; transition: transform 0.3s ease; filter: drop-shadow(0 8px 6px rgba(0,0,0,0.4)); }
+.grupo-imagens-combo img:hover { transform: scale(1.15) translateY(-5px); }
+
+.atributo { margin-bottom: 15px; }
+.atributo span { font-size: 0.9rem; font-weight: bold; }
+.barra-fundo {
+  width: 100%;
+  height: 14px;
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.6);
+  border-radius: 10px;
+  margin-top: 5px;
+  overflow: hidden;
+  position: relative;
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 9.5%, rgba(255, 255, 255, 0.2) 10% );
+  background-size: 100% 100%;
 }
 
-.dados-membro strong {
-  font-size: 1.05rem;
-  color: #3498db;
-  line-height: 1.2;
-}
-
-.dados-membro span {
-  font-size: 0.85rem;
+.tema-claro .barra-fundo { background-color: #e0e0e0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+.barra-progresso {
+  height: 100%;
+  background: linear-gradient(90deg, #f39c12, #2ecc71);
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.3);
+  border-radius: 10px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
 }
