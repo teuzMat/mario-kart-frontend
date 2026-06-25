@@ -11,7 +11,6 @@ function App() {
   return (
     <Router>
       <div className={`app-container ${temaEscuro ? 'tema-escuro' : 'tema-claro'}`}>
-
         <nav className="navbar-principal">
           <div className="nav-centro-agrupado">
             <NavLink to="/catalogo" className={({ isActive }) => isActive ? 'nav-ativo' : ''}>
@@ -26,7 +25,6 @@ function App() {
               Combo Builder
             </NavLink>
           </div>
-
           <button onClick={() => setTemaEscuro(!temaEscuro)} className="btn-tema-img btn-tema-absoluto" title="Alternar Tema">
             <img
               src={temaEscuro ? "/img/theme/modo_claro.png" : "/img/theme/modo_escuro.png"}
@@ -35,7 +33,6 @@ function App() {
           </button>
 
         </nav>
-
         <main className="container-75">
           <Routes>
             <Route path="/" element={<div className="page-wrapper"><Home /></div>} />
